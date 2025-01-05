@@ -1,0 +1,837 @@
+20:04:42.810 [INFO] cli_log::init: Starting bacon v3.7.0 with log level DEBUG
+20:04:42.811 [INFO] bacon::cli: args: Args {
+    help: false,
+    version: false,
+    prefs: false,
+    summary: false,
+    no_summary: false,
+    wrap: false,
+    no_wrap: false,
+    reverse: false,
+    no_reverse: false,
+    help_line: false,
+    no_help_line: false,
+    list_jobs: false,
+    offline: false,
+    init: false,
+    job: Some(
+        ConcreteJobRef {
+            name_or_alias: Name(
+                "run",
+            ),
+            scope: Scope {
+                tests: [],
+            },
+        },
+    ),
+    no_default_features: false,
+    features: None,
+    all_features: false,
+    export_locations: false,
+    no_export_locations: false,
+    watch: None,
+    project: None,
+    args: [],
+    additional_job_args: [],
+}
+20:04:42.879 [DEBUG] bacon::cli: mission context: Context {
+    name: "equation-processor",
+    nature: Cargo,
+    package_directory: "/home/kronberger/GitHub/mathToPic/equation-processor",
+    workspace_root: None,
+    cargo_mission_location: Some(
+        CargoContext {
+            cargo_toml_file: "/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml",
+            ..
+        },
+    ),
+    path_to_watch: None,
+}
+20:04:42.882 [INFO] bacon::conf::settings: config loaded from "/home/kronberger/GitHub/mathToPic/equation-processor/bacon.toml"
+20:04:42.882 [INFO] bacon::conf::settings: settings: Settings {
+    additional_alias_args: None,
+    additional_job_args: [],
+    all_features: false,
+    arg_job: Some(
+        ConcreteJobRef {
+            name_or_alias: Name(
+                "run",
+            ),
+            scope: Scope {
+                tests: [],
+            },
+        },
+    ),
+    config_files: [
+        "/home/kronberger/GitHub/mathToPic/equation-processor/bacon.toml",
+    ],
+    default_job: ConcreteJobRef {
+        name_or_alias: Name(
+            "check",
+        ),
+        scope: Scope {
+            tests: [],
+        },
+    },
+    default_watch: true,
+    exports: ExportsSettings {
+        exports: {},
+    },
+    features: None,
+    grace_period: Period {
+        duration: 5ms,
+    },
+    help_line: true,
+    ignore: [],
+    ignored_lines: None,
+    jobs: {
+        "nextest": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: Some(
+                Nextest,
+            ),
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "nextest",
+                "run",
+                "--hide-progress-bar",
+                "--failure-output",
+                "final",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: true,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "clippy": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "clippy",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "check-all": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "check",
+                "--all-targets",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "run": Job {
+            allow_failures: false,
+            allow_warnings: true,
+            analyzer: None,
+            apply_gitignore: None,
+            background: false,
+            command: [
+                "cargo",
+                "run",
+                "--",
+                "--input-file",
+                "./tests/sample.md",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: true,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "check": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "check",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "run-long": Job {
+            allow_failures: false,
+            allow_warnings: true,
+            analyzer: None,
+            apply_gitignore: None,
+            background: false,
+            command: [
+                "cargo",
+                "run",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: true,
+            on_change_strategy: Some(
+                KillThenRestart,
+            ),
+            on_success: None,
+            watch: None,
+        },
+        "ex": Job {
+            allow_failures: false,
+            allow_warnings: true,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "run",
+                "--example",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: true,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "doc-open": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "doc",
+                "--no-deps",
+                "--open",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: Some(
+                Internal(
+                    Back,
+                ),
+            ),
+            watch: None,
+        },
+        "clippy-all": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "clippy",
+                "--all-targets",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "doc": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "doc",
+                "--no-deps",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: false,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+        "test": Job {
+            allow_failures: false,
+            allow_warnings: false,
+            analyzer: None,
+            apply_gitignore: None,
+            background: true,
+            command: [
+                "cargo",
+                "test",
+            ],
+            default_watch: None,
+            env: {},
+            expand_env_vars: true,
+            extraneous_args: true,
+            ignore: [],
+            ignored_lines: None,
+            kill: None,
+            need_stdout: true,
+            on_change_strategy: None,
+            on_success: None,
+            watch: None,
+        },
+    },
+    keybindings: KeyBindings {
+        Ctrl-c: "quit",
+        Tab: "next-match",
+        End: "scroll-to-bottom",
+        d: "job:doc-open",
+        Ctrl-q: "quit",
+        Space: "scroll-pages(.8)",
+        t: "job:test",
+        s: "toggle-summary",
+        ?: "help",
+        BackTab: "previous-match",
+        Up: "scroll-lines(-1)",
+        Enter: "validate",
+        h: "help",
+        Shift-BackTab: "previous-match",
+        q: "quit",
+        Down: "scroll-lines(1)",
+        Ctrl-d: "job:default",
+        n: "job:nextest",
+        r: "job:run",
+        Esc: "back",
+        PageDown: "scroll-pages(1)",
+        i: "job:initial",
+        a: "job:check-all",
+        p: "toggle-pause",
+        /: "focus-search",
+        f: "scope-to-failures",
+        F5: "refresh",
+        w: "toggle-wrap",
+        b: "toggle-backtrace(1)",
+        Home: "scroll-to-top",
+        PageUp: "scroll-pages(-1)",
+        c: "job:clippy-all",
+    },
+    no_default_features: false,
+    on_change_strategy: None,
+    reverse: false,
+    show_changes_count: false,
+    summary: false,
+    watch: [],
+    wrap: true,
+    env: {
+        "CARGO_TERM_COLOR": "always",
+    },
+}
+20:04:42.883 [DEBUG] bacon::jobs::job_stack: picking job Initial
+20:04:42.883 [DEBUG] bacon::context: watches: ["src", "tests", "benches", "examples", "build.rs"]
+20:04:42.883 [INFO] bacon::app: mission.ignorer() took 174.513µs
+20:04:42.883 [DEBUG] bacon::watcher: add watch dir "/home/kronberger/GitHub/mathToPic/equation-processor/src"
+20:04:42.883 [DEBUG] bacon::watcher: add watch dir "/home/kronberger/GitHub/mathToPic/equation-processor/tests"
+20:04:42.883 [DEBUG] bacon::watcher: add watch file "/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"
+20:04:42.883 [DEBUG] bacon::watcher: add watch file "/home/kronberger/GitHub/mathToPic/equation-processor/bacon.toml"
+20:04:42.883 [DEBUG] bacon::mission: command builder: CommandBuilder {
+    exe: "cargo",
+    current_dir: Some(
+        "/home/kronberger/GitHub/mathToPic/equation-processor",
+    ),
+    args: [
+        "run",
+        "--",
+        "--input-file",
+        "./tests/sample.md",
+    ],
+    with_stdout: true,
+    envs: {
+        "CARGO_TERM_COLOR": "always",
+    },
+}
+20:04:42.883 [DEBUG] bacon::state: state.clear
+20:04:42.884 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:04:42.936 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:04:42.936 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:04:42.953 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(512)))
+20:04:42.954 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:04:42.954 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 1, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 6 }
+20:04:42.954 [DEBUG] bacon::state: Got report
+20:04:42.954 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:04:42.954 [DEBUG] bacon::result::wrapped_report: wrapping report
+20:04:45.601 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:04:45.601 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:29.615 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:29.615 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.464 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(From)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: Some(10804), attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.465 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 328.313µs
+20:05:59.465 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 393.938µs
+20:05:59.465 [DEBUG] bacon::watcher: at least one is included
+20:05:59.465 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(To)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsNHtB4y.bck"], attr:tracker: Some(10804), attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.465 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 20.106µs
+20:05:59.465 [DEBUG] bacon::app: watch event received
+20:05:59.465 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:05:59.465 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:05:59.465 [DEBUG] bacon::state: state.start_computation
+20:05:59.465 [DEBUG] bacon::state: state.clear
+20:05:59.465 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 66.816µs
+20:05:59.465 [DEBUG] bacon::watcher: at least one is included
+20:05:59.465 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:05:59.466 [DEBUG] bacon::app: watch event received
+20:05:59.466 [DEBUG] bacon::app: ignoring notify event in grace period
+20:05:59.466 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(Both)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs", "/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsNHtB4y.bck"], attr:tracker: Some(10804), attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.466 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 46.302µs
+20:05:59.466 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 107.789µs
+20:05:59.466 [DEBUG] bacon::watcher: at least one is included
+20:05:59.466 [DEBUG] bacon::watcher: notify event: Event { kind: Create(File), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.466 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 16.157µs
+20:05:59.466 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 48.173µs
+20:05:59.466 [DEBUG] bacon::app: watch event received
+20:05:59.466 [DEBUG] bacon::app: ignoring notify event in grace period
+20:05:59.466 [DEBUG] bacon::watcher: at least one is included
+20:05:59.466 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.466 [DEBUG] bacon::watcher: ignoring 'any' data change
+20:05:59.466 [DEBUG] bacon::app: watch event received
+20:05:59.466 [DEBUG] bacon::app: ignoring notify event in grace period
+20:05:59.479 [DEBUG] bacon::watcher: close write event: Event { kind: Access(Close(Write)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.479 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 65.786µs
+20:05:59.479 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 136.014µs
+20:05:59.479 [DEBUG] bacon::watcher: at least one is included
+20:05:59.479 [DEBUG] bacon::watcher: ignoring metadata change
+20:05:59.479 [DEBUG] bacon::watcher: notify event: Event { kind: Remove(File), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsNHtB4y.bck"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.479 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 18.313µs
+20:05:59.479 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 58.015µs
+20:05:59.479 [DEBUG] bacon::watcher: at least one is included
+20:05:59.479 [DEBUG] bacon::app: watch event received
+20:05:59.479 [DEBUG] bacon::app: watch event received
+20:05:59.519 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.519 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:05:59.543 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:00.061 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(512)))
+20:06:00.061 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:06:00.061 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 1, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 6 }
+20:06:00.061 [DEBUG] bacon::state: Got report
+20:06:00.061 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:06:00.061 [DEBUG] bacon::result::wrapped_report: wrapping report
+20:06:00.061 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:06:00.061 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:06:00.061 [DEBUG] bacon::state: state.start_computation
+20:06:00.061 [DEBUG] bacon::state: state.clear
+20:06:00.061 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:06:00.117 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:00.117 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:00.133 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(512)))
+20:06:00.133 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:06:00.133 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 1, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 6 }
+20:06:00.133 [DEBUG] bacon::state: Got report
+20:06:00.133 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 1,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 6,
+}
+20:06:00.133 [DEBUG] bacon::result::wrapped_report: wrapping report
+20:06:44.993 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(From)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: Some(10816), attr:flag: None, attr:info: None, attr:source: None }
+20:06:44.993 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 68.933µs
+20:06:44.993 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 156.788µs
+20:06:44.993 [DEBUG] bacon::watcher: at least one is included
+20:06:44.993 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(To)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsrk3IW1.bck"], attr:tracker: Some(10816), attr:flag: None, attr:info: None, attr:source: None }
+20:06:44.993 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 22.316µs
+20:06:44.993 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 79.533µs
+20:06:44.993 [DEBUG] bacon::watcher: at least one is included
+20:06:44.993 [DEBUG] bacon::app: watch event received
+20:06:44.993 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:06:44.993 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:06:44.993 [DEBUG] bacon::state: state.start_computation
+20:06:44.993 [DEBUG] bacon::state: state.clear
+20:06:44.993 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:06:44.994 [DEBUG] bacon::app: watch event received
+20:06:44.994 [DEBUG] bacon::watcher: notify event: Event { kind: Modify(Name(Both)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs", "/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsrk3IW1.bck"], attr:tracker: Some(10816), attr:flag: None, attr:info: None, attr:source: None }
+20:06:44.994 [DEBUG] bacon::app: ignoring notify event in grace period
+20:06:44.994 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 67.395µs
+20:06:44.994 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 209.296µs
+20:06:44.994 [DEBUG] bacon::watcher: at least one is included
+20:06:44.994 [DEBUG] bacon::watcher: notify event: Event { kind: Create(File), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:44.994 [DEBUG] bacon::app: watch event received
+20:06:44.994 [DEBUG] bacon::app: ignoring notify event in grace period
+20:06:44.994 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 21.593µs
+20:06:44.994 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 131.28µs
+20:06:44.994 [DEBUG] bacon::watcher: at least one is included
+20:06:44.994 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:44.995 [DEBUG] bacon::watcher: ignoring 'any' data change
+20:06:44.995 [DEBUG] bacon::app: watch event received
+20:06:44.995 [DEBUG] bacon::app: ignoring notify event in grace period
+20:06:45.007 [DEBUG] bacon::watcher: close write event: Event { kind: Access(Close(Write)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.007 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 24.577µs
+20:06:45.007 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 49.655µs
+20:06:45.007 [DEBUG] bacon::watcher: at least one is included
+20:06:45.007 [DEBUG] bacon::watcher: ignoring metadata change
+20:06:45.007 [DEBUG] bacon::watcher: notify event: Event { kind: Remove(File), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rsrk3IW1.bck"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.007 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 7.175µs
+20:06:45.007 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 22.779µs
+20:06:45.007 [DEBUG] bacon::watcher: at least one is included
+20:06:45.008 [DEBUG] bacon::app: watch event received
+20:06:45.008 [DEBUG] bacon::app: watch event received
+20:06:45.048 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.048 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.072 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src/main.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.627 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/sample.md"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.632 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(0)))
+20:06:45.632 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:06:45.632 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 0, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 0 }
+20:06:45.632 [DEBUG] bacon::state: Got report
+20:06:45.632 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:06:45.632 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:06:45.632 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:06:45.632 [DEBUG] bacon::state: state.start_computation
+20:06:45.632 [DEBUG] bacon::state: state.clear
+20:06:45.632 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:06:45.680 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.680 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.695 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/sample.md"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:06:45.699 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(0)))
+20:06:45.699 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:06:45.699 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 0, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 0 }
+20:06:45.699 [DEBUG] bacon::state: Got report
+20:06:45.699 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:10:04.683 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:04.683 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:05.296 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:05.296 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:06.214 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:30.660 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:30.660 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:32.568 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/cli.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:32.569 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/cli.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:48.075 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:48.075 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:48.935 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:48.935 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.163 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.163 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.233 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.233 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.429 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.429 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.530 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.530 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/src"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:49.674 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:54.674 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:54.790 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:55.166 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:55.574 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:55.791 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:56.144 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:56.315 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:56.567 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:56.728 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:57.759 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:57.963 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:58.212 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:58.367 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:58.436 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:58.727 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:58.822 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:59.007 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:59.383 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:59.477 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:59.688 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:10:59.840 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.047 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.184 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.278 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.475 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.556 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:00.767 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:01.011 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:01.241 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:01.353 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:01.819 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:01.981 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:02.128 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:02.143 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:02.241 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:02.411 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.209 [DEBUG] bacon::watcher: notify event: Event { kind: Create(File), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/csv_and_md_test.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.210 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 93.103µs
+20:11:03.210 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 182.215µs
+20:11:03.210 [DEBUG] bacon::watcher: at least one is included
+20:11:03.210 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/csv_and_md_test.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.210 [DEBUG] bacon::watcher: ignoring 'any' data change
+20:11:03.210 [DEBUG] bacon::app: watch event received
+20:11:03.210 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:11:03.210 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:11:03.210 [DEBUG] bacon::state: state.start_computation
+20:11:03.210 [DEBUG] bacon::state: state.clear
+20:11:03.210 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:11:03.227 [DEBUG] bacon::watcher: close write event: Event { kind: Access(Close(Write)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/csv_and_md_test.rs"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.227 [DEBUG] bacon::ignorer::git_ignorer: worktree.excludes(None)? took 63.685µs
+20:11:03.227 [INFO] bacon::watcher: ignorer.excludes_all_pathbufs(&we.paths) took 135.371µs
+20:11:03.227 [DEBUG] bacon::watcher: at least one is included
+20:11:03.227 [DEBUG] bacon::app: watch event received
+20:11:03.271 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.271 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.338 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/sample.md"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.347 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(0)))
+20:11:03.347 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:11:03.347 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 0, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 0 }
+20:11:03.347 [DEBUG] bacon::state: Got report
+20:11:03.347 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:11:03.347 [DEBUG] bacon::app: requested action: Internal(ReRun)
+20:11:03.347 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:11:03.347 [DEBUG] bacon::state: state.start_computation
+20:11:03.347 [DEBUG] bacon::state: state.clear
+20:11:03.347 [INFO] bacon::exec::executor: start task Task { backtrace: None, grace_period: Period { duration: 5ms } }
+20:11:03.399 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/Cargo.toml"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.399 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.416 [DEBUG] bacon::watcher: ignoring access event: Event { kind: Access(Open(Any)), paths: ["/home/kronberger/GitHub/mathToPic/equation-processor/tests/sample.md"], attr:tracker: None, attr:flag: None, attr:info: None, attr:source: None }
+20:11:03.422 [INFO] bacon::app: execution finished with status: Some(ExitStatus(unix_wait_status(0)))
+20:11:03.422 [DEBUG] bacon::analysis::standard::standard_report_building: stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:11:03.422 [DEBUG] bacon::result::command_result: report stats: Stats { warnings: 0, errors: 0, test_fails: 0, passed_tests: 0, location_lines: 0, normal_lines: 0 }
+20:11:03.422 [DEBUG] bacon::state: Got report
+20:11:03.422 [INFO] bacon::state: Stats: Stats {
+    warnings: 0,
+    errors: 0,
+    test_fails: 0,
+    passed_tests: 0,
+    location_lines: 0,
+    normal_lines: 0,
+}
+20:11:55.724 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.724 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.724 [DEBUG] bacon::state: content_height: 7
+20:11:55.724 [DEBUG] bacon::state: page_height: 21
+20:11:55.724 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.724 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.724 [DEBUG] bacon::state: content_height: 7
+20:11:55.724 [DEBUG] bacon::state: page_height: 21
+20:11:55.724 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.724 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.724 [DEBUG] bacon::state: content_height: 7
+20:11:55.724 [DEBUG] bacon::state: page_height: 21
+20:11:55.732 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.732 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.732 [DEBUG] bacon::state: content_height: 7
+20:11:55.732 [DEBUG] bacon::state: page_height: 21
+20:11:55.732 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.732 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.732 [DEBUG] bacon::state: content_height: 7
+20:11:55.732 [DEBUG] bacon::state: page_height: 21
+20:11:55.732 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.732 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.732 [DEBUG] bacon::state: content_height: 7
+20:11:55.732 [DEBUG] bacon::state: page_height: 21
+20:11:55.740 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.740 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.740 [DEBUG] bacon::state: content_height: 7
+20:11:55.740 [DEBUG] bacon::state: page_height: 21
+20:11:55.748 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.748 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.748 [DEBUG] bacon::state: content_height: 7
+20:11:55.748 [DEBUG] bacon::state: page_height: 21
+20:11:55.748 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.748 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.748 [DEBUG] bacon::state: content_height: 7
+20:11:55.748 [DEBUG] bacon::state: page_height: 21
+20:11:55.748 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.748 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.748 [DEBUG] bacon::state: content_height: 7
+20:11:55.748 [DEBUG] bacon::state: page_height: 21
+20:11:55.756 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.756 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.756 [DEBUG] bacon::state: content_height: 7
+20:11:55.756 [DEBUG] bacon::state: page_height: 21
+20:11:55.756 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.756 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.756 [DEBUG] bacon::state: content_height: 7
+20:11:55.756 [DEBUG] bacon::state: page_height: 21
+20:11:55.765 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.765 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.766 [DEBUG] bacon::state: content_height: 7
+20:11:55.766 [DEBUG] bacon::state: page_height: 21
+20:11:55.773 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.774 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.774 [DEBUG] bacon::state: content_height: 7
+20:11:55.774 [DEBUG] bacon::state: page_height: 21
+20:11:55.774 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.774 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.774 [DEBUG] bacon::state: content_height: 7
+20:11:55.774 [DEBUG] bacon::state: page_height: 21
+20:11:55.781 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.781 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.781 [DEBUG] bacon::state: content_height: 7
+20:11:55.781 [DEBUG] bacon::state: page_height: 21
+20:11:55.789 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.789 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.789 [DEBUG] bacon::state: content_height: 7
+20:11:55.789 [DEBUG] bacon::state: page_height: 21
+20:11:55.830 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.830 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.830 [DEBUG] bacon::state: content_height: 7
+20:11:55.830 [DEBUG] bacon::state: page_height: 21
+20:11:55.894 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.894 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.894 [DEBUG] bacon::state: content_height: 7
+20:11:55.894 [DEBUG] bacon::state: page_height: 21
+20:11:55.902 [DEBUG] bacon::app: key combination pressed: Down
+20:11:55.902 [DEBUG] bacon::app: requested action: Internal(Scroll(Lines(1)))
+20:11:55.902 [DEBUG] bacon::state: content_height: 7
+20:11:55.902 [DEBUG] bacon::state: page_height: 21
+20:11:56.942 [DEBUG] bacon::app: key combination pressed: q
+20:11:56.942 [DEBUG] bacon::app: requested action: Internal(Quit)
+20:11:56.942 [DEBUG] bacon::exec::executor: failed to send 'die' signal: sending on a disconnected channel
+20:11:56.942 [INFO] bacon: bye
