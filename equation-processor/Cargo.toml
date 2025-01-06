@@ -2,6 +2,13 @@
 name = "equation_processor"
 version = "0.1.0"
 edition = "2021"
+authors = ["Your Name <you@example.com>"]
+description = "A tool to render and convert LaTeX equations from CSV or Markdown files"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/kronberger-industries-droid/equation-processor"
+readme = "README.md"
+keywords = ["LaTeX", "equations", "renderer", "SVG"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 regex = "1.11.1"
