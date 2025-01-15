@@ -3,7 +3,7 @@ pub use self::core::*;
 mod core {
     use std::collections::HashMap;
     use std::fs::{self, File};
-    use std::io::{self, Read, BufReader, BufRead};
+    use std::io::{self, Read, Write, BufReader, BufRead};
     use std::path::PathBuf;
     use regex::Regex;
     use std::process::Command;
@@ -138,7 +138,25 @@ mod core {
         }
     }
 
+    pub fn ask_confirmation(prompt: &str) -> bool {
+        loop {
+            print!("{} (y/n): ", prompt);
+            io::stdout().flush().unwrap();
 
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+            let input = input.trim().to_lowercase();
+
+            match input.as_str() {
+                "y" | "yes" => return true,
+                "n" | "no" => return false,
+                _ => {
+                    println!("Invalid input. Please enter 'y' or 'n'.");
+                }
+            }
+        }
+    }
+        
     pub fn render_equations(equations: &[Equation], output_dir: &PathBuf, color: &str, delete_intermediates: bool) -> io::Result<()> {
         let active_equations: Vec<&Equation> = equations.iter().filter(|eq| eq.active).collect();
         let bar = ProgressBar::new(active_equations.len() as u64);
