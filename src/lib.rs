@@ -1,13 +1,13 @@
 pub use self::core::*;
 
 mod core {
+    use indicatif::{ProgressBar, ProgressStyle};
+    use regex::Regex;
     use std::collections::HashMap;
     use std::fs::{self, File};
-    use std::io::{self, Read, Write, BufReader, BufRead};
+    use std::io::{self, BufRead, BufReader, Read, Write};
     use std::path::PathBuf;
-    use regex::Regex;
     use std::process::Command;
-    use indicatif::{ProgressBar, ProgressStyle};
 
     #[derive(Debug, Clone)]
     pub struct Equation {
@@ -35,7 +35,12 @@ mod core {
             sanitized
         }
 
-        pub fn render(&self, output_dir: &PathBuf, color: &str, delete_intermediates: bool) -> io::Result<()> {
+        pub fn render(
+            &self,
+            output_dir: &PathBuf,
+            color: &str,
+            delete_intermediates: bool,
+        ) -> io::Result<()> {
             if !self.active {
                 // println!("Skipping inactive equation: {}", self.name);
                 return Ok(());
@@ -52,8 +57,8 @@ mod core {
                 .arg(&tex_file_path)
                 .arg("--outdir")
                 .arg(output_dir)
-                .stdout(std::process::Stdio::null())  // Suppress stdout
-                .stderr(std::process::Stdio::null())  // Suppress stderr
+                .stdout(std::process::Stdio::null()) // Suppress stdout
+                .stderr(std::process::Stdio::null()) // Suppress stderr
                 .status()?;
 
             if status.success() {
@@ -71,9 +76,7 @@ mod core {
         }
 
         fn convert_pdf_to_svg(&self, output_dir: &PathBuf) -> io::Result<()> {
-            let check = Command::new("pdftocairo")
-                .arg("-version")
-                .output();
+            let check = Command::new("pdftocairo").arg("-version").output();
 
             if let Err(_) = check {
                 eprintln!("Error: pdftocairo not found. Please install it to enable PDF to SVG conversion.");
@@ -156,8 +159,13 @@ mod core {
             }
         }
     }
-        
-    pub fn render_equations(equations: &[Equation], output_dir: &PathBuf, color: &str, delete_intermediates: bool) -> io::Result<()> {
+
+    pub fn render_equations(
+        equations: &[Equation],
+        output_dir: &PathBuf,
+        color: &str,
+        delete_intermediates: bool,
+    ) -> io::Result<()> {
         let active_equations: Vec<&Equation> = equations.iter().filter(|eq| eq.active).collect();
         let bar = ProgressBar::new(active_equations.len() as u64);
 
@@ -165,7 +173,7 @@ mod core {
             ProgressStyle::default_bar()
                 .template("{spinner:.green} [{bar:40.cyan/blue}] {pos}/{len} {msg}")
                 .expect("Error setting template")
-                .progress_chars("#>-")
+                .progress_chars("#>-"),
         );
 
         for eq in active_equations {
@@ -177,7 +185,7 @@ mod core {
         bar.finish_with_message("Rendering complete!");
         Ok(())
     }
-        
+
     pub fn read_file(path: &PathBuf) -> io::Result<String> {
         let mut file = File::open(path)?;
         let mut content = String::new();
@@ -229,7 +237,8 @@ mod core {
     pub fn parse_markdown(content: &str) -> Vec<Equation> {
         let mut equations = Vec::new();
         let mut name_count: HashMap<String, usize> = HashMap::new();
-        let re = Regex::new(r"(?s)(%%(yes|no)?%%)?[\n\r]*\$\$[\n\r]*(.*?)\$\$[\n\r]*(%%(.*?)%%)?").unwrap();
+        let re = Regex::new(r"(?s)(%%(yes|no)?%%)?[\n\r]*\$\$[\n\r]*(.*?)\$\$[\n\r]*(%%(.*?)%%)?")
+            .unwrap();
 
         for cap in re.captures_iter(content) {
             let body = cap.get(3).unwrap().as_str().trim();
