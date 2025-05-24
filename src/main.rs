@@ -1,7 +1,10 @@
 use clap::Parser;
+use equation_processor::{
+    ask_confirmation, detect_file_type, parse_markdown, read_csv_file, read_file, render_equations,
+    Filetype,
+};
+use prettytable::{row, Table};
 use std::path::PathBuf;
-use equation_processor::{read_file, read_csv_file, detect_file_type, parse_markdown, render_equations, ask_confirmation};
-use prettytable::{Table, row};
 
 #[derive(Parser)]
 #[command(name = "Equation Processor")]
@@ -27,8 +30,8 @@ fn main() {
     std::fs::create_dir_all(&args.output_dir).unwrap();
 
     let equations = match file_type {
-        "csv" => read_csv_file(&args.input_file).unwrap_or_else(|_| Vec::new()),
-        "markdown" => {
+        Filetype::Csv => read_csv_file(&args.input_file).unwrap_or_else(|_| Vec::new()),
+        Filetype::Markdown => {
             let content = read_file(&args.input_file).unwrap();
             parse_markdown(&content)
         }
@@ -42,28 +45,27 @@ fn main() {
         eprintln!("No equations found to process.");
     } else {
         let mut table = Table::new();
-        
+
         table.add_row(row!["Active", "Name", "Equation"]);
 
         for eq in &equations {
-            table.add_row(row![
-                if eq.active { "Yes" } else { "No" },
-                eq.name,
-                eq.body
-            ]);
+            table.add_row(row![if eq.active { "Yes" } else { "No" }, eq.name, eq.body]);
         }
 
         table.printstd();
 
         if !ask_confirmation("Are you sure you want to render the active equations?") {
-            return
+            return;
         }
-        
-        render_equations(&equations, &args.output_dir, &args.color, args.delete_intermediates).unwrap();
-        
-        println!(
-            "  Equations rendered successfully to {:?}",
-            args.output_dir
-        );
+
+        render_equations(
+            &equations,
+            &args.output_dir,
+            &args.color,
+            args.delete_intermediates,
+        )
+        .unwrap();
+
+        println!("  Equations rendered successfully to {:?}", args.output_dir);
     }
 }

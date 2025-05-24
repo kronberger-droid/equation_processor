@@ -6,8 +6,14 @@ mod core {
     use std::collections::HashMap;
     use std::fs::{self, File};
     use std::io::{self, BufRead, BufReader, Read, Write};
-    use std::path::PathBuf;
+    use std::path::{Path, PathBuf};
     use std::process::Command;
+
+    pub enum Filetype {
+        Markdown,
+        Csv,
+        Unknown,
+    }
 
     #[derive(Debug, Clone)]
     pub struct Equation {
@@ -75,10 +81,10 @@ mod core {
             Ok(())
         }
 
-        fn convert_pdf_to_svg(&self, output_dir: &PathBuf) -> io::Result<()> {
+        fn convert_pdf_to_svg(&self, output_dir: &Path) -> io::Result<()> {
             let check = Command::new("pdftocairo").arg("-version").output();
 
-            if let Err(_) = check {
+            if check.is_err() {
                 eprintln!("Error: pdftocairo not found. Please install it to enable PDF to SVG conversion.");
                 return Ok(());
             }
@@ -105,7 +111,7 @@ mod core {
             Ok(())
         }
 
-        fn cleanup_intermediate_files(&self, output_dir: &PathBuf) -> io::Result<()> {
+        fn cleanup_intermediate_files(&self, output_dir: &Path) -> io::Result<()> {
             let tex_file = output_dir.join(format!("{}.tex", self.name));
             let pdf_file = output_dir.join(format!("{}.pdf", self.name));
 
@@ -143,7 +149,7 @@ mod core {
 
     pub fn ask_confirmation(prompt: &str) -> bool {
         loop {
-            print!("{} (y/n): ", prompt);
+            print!("{prompt} (y/n): ");
             io::stdout().flush().unwrap();
 
             let mut input = String::new();
@@ -199,38 +205,36 @@ mod core {
         let mut equations = Vec::new();
         let mut name_count: HashMap<String, usize> = HashMap::new();
 
-        for line in reader.lines().skip(1) {
-            if let Ok(row) = line {
-                let parts: Vec<&str> = row.split(',').collect();
-                if parts.len() >= 3 {
-                    let active = parts[0].trim().eq_ignore_ascii_case("yes");
-                    let body = parts[1].trim();
-                    let base_name = if parts[2].trim().is_empty() {
-                        "default_equation"
-                    } else {
-                        parts[2].trim()
-                    };
-                    let mut name = base_name.to_string();
+        for line in reader.lines().skip(1).flatten() {
+            let parts: Vec<&str> = line.split(',').collect();
+            if parts.len() >= 3 {
+                let active = parts[0].trim().eq_ignore_ascii_case("yes");
+                let body = parts[1].trim();
+                let base_name = if parts[2].trim().is_empty() {
+                    "default_equation"
+                } else {
+                    parts[2].trim()
+                };
+                let mut name = base_name.to_string();
 
-                    let count = name_count.entry(name.clone()).or_insert(0);
-                    if *count > 0 {
-                        name = format!("{}_{}", base_name, count);
-                    }
-                    *count += 1;
-
-                    let equation = Equation::new(active, &name, body);
-                    equations.push(equation);
+                let count = name_count.entry(name.clone()).or_insert(0);
+                if *count > 0 {
+                    name = format!("{base_name}_{count}");
                 }
+                *count += 1;
+
+                let equation = Equation::new(active, &name, body);
+                equations.push(equation);
             }
         }
         Ok(equations)
     }
 
-    pub fn detect_file_type(path: &PathBuf) -> &'static str {
+    pub fn detect_file_type(path: &Path) -> &'static Filetype {
         match path.extension().and_then(|s| s.to_str()) {
-            Some("csv") => "csv",
-            Some("md") | Some("markdown") => "markdown",
-            _ => "unknown",
+            Some("csv") => &Filetype::Csv,
+            Some("md") | Some("markdown") => &Filetype::Markdown,
+            _ => &Filetype::Unknown,
         }
     }
 
@@ -242,13 +246,13 @@ mod core {
 
         for cap in re.captures_iter(content) {
             let body = cap.get(3).unwrap().as_str().trim();
-            let active = cap.get(2).map_or(true, |m| m.as_str() == "yes");
+            let active = cap.get(2).is_none_or(|m| m.as_str() == "yes");
             let base_name = cap.get(5).map_or("default_equation", |m| m.as_str());
             let mut name = base_name.to_string();
 
             let count = name_count.entry(name.clone()).or_insert(0);
             if *count > 0 {
-                name = format!("{}_{}", base_name, count);
+                name = format!("{base_name}_{count}");
             }
             *count += 1;
 
