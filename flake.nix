@@ -20,6 +20,12 @@
         # Fenix-provided stable Rust and analyzer
         stableToolchain = fenix.packages.${system}.complete.toolchain;
         rustAnalyzer    = fenix.packages.${system}.latest.rust-analyzer;
+        libPath = with pkgs; lib.makeLibraryPath [
+          wayland-protocols
+          wayland
+          libxkbcommon
+          libGL
+        ];
       in {
         devShells.default = pkgs.mkShell {
           name = "rust-dev-shell";
@@ -29,8 +35,13 @@
             rustAnalyzer
             cargo-expand    # Inspect expanded macros
             nushell         # Friendly REPL shell
+
             tectonic        # LaTeX to PDF
             poppler_utils   # PDF utilities (pdftocairo, etc.)
+
+            u-config
+            wayland
+            wayland-protocols
           ];
 
           shellHook = ''
@@ -38,6 +49,8 @@
             # Isolate Cargo and Rustup directories in your home
             export CARGO_HOME="$HOME/.cargo"
             export RUSTUP_HOME="$HOME/.rustup"
+
+            export LD_LIBRARY_PATH="${libPath}"
             mkdir -p "$CARGO_HOME" "$RUSTUP_HOME"
 
             # Launch nushell as login shell
