@@ -33,11 +33,11 @@
           buildInputs = with pkgs; lib.flatten [
             stableToolchain
             rustAnalyzer
-            cargo-expand    # Inspect expanded macros
-            nushell         # Friendly REPL shell
+            cargo-expand
+            nushell
 
-            tectonic        # LaTeX to PDF
-            poppler_utils   # PDF utilities (pdftocairo, etc.)
+            tectonic
+            poppler_utils
 
             u-config
             wayland
