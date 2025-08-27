@@ -17,6 +17,8 @@ indicatif = "0.17"
 prettytable-rs = "0.10"
 eframe = "0.31.1"
 egui_file = "0.22.1"
+egui-file-dialog = "0.10.0"
+egui_extras = "0.31.1"
 
 [dev-dependencies]
 assert_cmd = "2"

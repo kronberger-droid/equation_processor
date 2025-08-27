@@ -38,6 +38,11 @@
 
             tectonic        # LaTeX to PDF
             poppler_utils   # PDF utilities (pdftocairo, etc.)
+            cargo-expand
+            nushell
+
+            tectonic
+            poppler_utils
 
             u-config
             wayland
