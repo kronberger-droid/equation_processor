@@ -1,7 +1,11 @@
 use clap::Parser;
+use eframe::egui::{self};
+use egui_file::FileDialog;
+use equation_processor::{
+    ask_confirmation, detect_file_type, parse_markdown, read_csv_file, read_file, render_equations,
+};
+use prettytable::{row, Table};
 use std::path::PathBuf;
-use equation_processor::{read_file, read_csv_file, detect_file_type, parse_markdown, render_equations, ask_confirmation};
-use prettytable::{Table, row};
 
 #[derive(Parser)]
 #[command(name = "Equation Processor")]
@@ -18,6 +22,18 @@ struct Args {
 
     #[arg(short, long)]
     delete_intermediates: bool,
+}
+
+#[derive(Default)]
+struct EquationApp {
+    input_file: Option<PathBuf>,
+    open_input_file_dialog: Option<FileDialog>,
+    output_dir: Option<PathBuf>,
+    open_output_file_dialog: Option<FileDialog>,
+}
+
+impl eframe::App for EquationApp {
+    fn update(&mut self, ctx: egui::Context, _frame: &mut eframe::Frame) {}
 }
 
 fn main() {
@@ -42,28 +58,27 @@ fn main() {
         eprintln!("No equations found to process.");
     } else {
         let mut table = Table::new();
-        
+
         table.add_row(row!["Active", "Name", "Equation"]);
 
         for eq in &equations {
-            table.add_row(row![
-                if eq.active { "Yes" } else { "No" },
-                eq.name,
-                eq.body
-            ]);
+            table.add_row(row![if eq.active { "Yes" } else { "No" }, eq.name, eq.body]);
         }
 
         table.printstd();
 
         if !ask_confirmation("Are you sure you want to render the active equations?") {
-            return
+            return;
         }
-        
-        render_equations(&equations, &args.output_dir, &args.color, args.delete_intermediates).unwrap();
-        
-        println!(
-            "  Equations rendered successfully to {:?}",
-            args.output_dir
-        );
+
+        render_equations(
+            &equations,
+            &args.output_dir,
+            &args.color,
+            args.delete_intermediates,
+        )
+        .unwrap();
+
+        println!("  Equations rendered successfully to {:?}", args.output_dir);
     }
 }
