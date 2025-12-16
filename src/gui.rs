@@ -30,6 +30,8 @@ pub struct EquationProcessorApp {
     output_dir: Option<PathBuf>,
     /// RGB color for equation rendering, normalized to [0.0,1.0].
     font_color: [f32; 3],
+    /// Hex color string for text input.
+    color_hex_input: String,
     /// Flag to delete intermediate LaTeX/PDF files.
     delete_intermediates: bool,
     /// Vector of equations parsed from the input file.
@@ -58,8 +60,39 @@ impl EquationProcessorApp {
             open_file_dialog: FileDialog::new(),
             select_dir_dialog: FileDialog::new(),
             font_color: [0.0, 0.0, 0.0],
+            color_hex_input: "#000000".to_string(),
             ..Default::default()
         }
+    }
+
+    /// Convert RGB float array to hex string using egui's Color32
+    fn rgb_to_hex(rgb: [f32; 3]) -> String {
+        let color32 = Color32::from_rgb(
+            (rgb[0] * 255.0).round() as u8,
+            (rgb[1] * 255.0).round() as u8,
+            (rgb[2] * 255.0).round() as u8,
+        );
+        // Use egui's built-in to_hex() but trim alpha to get 6-digit format
+        let hex_with_alpha = color32.to_hex();
+        format!("#{}", &hex_with_alpha[1..7]) // Remove # and alpha part
+    }
+
+    /// Convert hex string to RGB float array using egui's Color32
+    fn hex_to_rgb(hex: &str) -> Option<[f32; 3]> {
+        if let Ok(color32) = Color32::from_hex(hex) {
+            Some([
+                color32.r() as f32 / 255.0,
+                color32.g() as f32 / 255.0,
+                color32.b() as f32 / 255.0,
+            ])
+        } else {
+            None
+        }
+    }
+
+    /// Validate hex color format using egui's parser
+    fn is_valid_hex_color(hex: &str) -> bool {
+        Color32::from_hex(hex).is_ok()
     }
 }
 
@@ -141,7 +174,37 @@ impl eframe::App for EquationProcessorApp {
             // Rendering options
             ui.horizontal(|ui| {
                 ui.label("Font color:");
-                ui.color_edit_button_rgb(&mut self.font_color);
+                
+                
+                // Color picker
+                let picker_changed = ui.color_edit_button_rgb(&mut self.font_color).changed();
+                
+                // Hex text input
+                let text_response = ui.add(
+                    egui::TextEdit::singleline(&mut self.color_hex_input)
+                        .desired_width(80.0)
+                        .hint_text("#000000")
+                );
+                
+                // Synchronize color picker -> hex input
+                if picker_changed {
+                    self.color_hex_input = Self::rgb_to_hex(self.font_color);
+                }
+                
+                // Synchronize hex input -> color picker
+                if text_response.changed() {
+                    if Self::is_valid_hex_color(&self.color_hex_input) {
+                        if let Some(rgb) = Self::hex_to_rgb(&self.color_hex_input) {
+                            self.font_color = rgb;
+                        }
+                    }
+                }
+                
+                // Show validation indicator
+                if !Self::is_valid_hex_color(&self.color_hex_input) && !self.color_hex_input.is_empty() {
+                    ui.colored_label(Color32::RED, "Invalid hex color");
+                }
+                
                 ui.checkbox(&mut self.delete_intermediates, "Delete intermediates");
             });
             ui.add_space(12.0);
@@ -200,6 +263,20 @@ impl eframe::App for EquationProcessorApp {
 
             // Equations table
             if !self.equations.is_empty() {
+                // Select All/None buttons
+                ui.horizontal(|ui| {
+                    if ui.button("Select All").clicked() {
+                        for eq in &mut self.equations {
+                            eq.active = true;
+                        }
+                    }
+                    if ui.button("Select None").clicked() {
+                        for eq in &mut self.equations {
+                            eq.active = false;
+                        }
+                    }
+                });
+                ui.add_space(8.0);
                 ScrollArea::vertical().max_height(350.0).show(ui, |ui| {
                     TableBuilder::new(ui)
                         .striped(true)
